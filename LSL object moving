@@ -1,0 +1,76 @@
+// Script Name: Moving_Mountains_-_like_in_Avatar.lsl
+// Author: Ferd Frederix
+//I wanted to make mountains , like in the movie Avatar, that periodically move around in the sky.   This script will move them inside a defined area every 10 minutes.   You can easily change the numbers to move them as much, or as little as you want, and keep them inside a defined boundary.   
+
+// Downloaded from : http://www.free-lsl-scripts.com/freescripts.plx?ID=1468
+
+// This program is free software; you can redistribute it and/or modify it.
+// License information must be included in any script you give out or use.
+// This script is licensed under the Creative Commons Attribution-Share Alike 3.0 License
+// from http://creativecommons.org/licenses/by-sa/3.0 unless licenses are
+// included in the script or comments by the original author,in which case
+// the authors license must be followed.
+
+// Please leave any authors credits intact in any script you use or publish.
+////////////////////////////////////////////////////////////////////
+float maxX = 100;    // 255 max
+float minXY = 10;    // get no closer than 10 meters to any edge
+float maxY= 100;     // 255 max
+float minH = 2000;      // go no lower than this
+float maxH = 2020;    // go no higher than this
+
+default
+{
+    state_entry()
+    {
+        llSetTimerEvent(1.0);   // every 10 minutes, move mountains
+    }
+
+    timer()
+    {
+        vector C;
+
+        C= llGetPos();
+       
+        if (C.y > maxY) // N
+            C.y -= 20;
+       
+        if (C.x > maxX)  // E
+            C.x -= 20;
+
+        if (C.x < minXY)   // W
+            C.x += 20;   
+       
+        if (C.y  < minXY)    // S
+            C.y += 20;
+       
+        if (C.z > maxH)   // U
+            C.z -= 20;   
+       
+        if (C.z < minH)    // D
+            C.z += 20;
+           
+           
+        float sign = llFrand(2.0);   
+        if (sign > 1.0)
+            C.x += llFrand(10);
+        else
+            C.x -= llFrand(10);
+       
+        sign = llFrand(2.0);   
+        if (sign > 1.0)
+            C.y += llFrand(10);
+        else
+            C.y -= llFrand(10);
+           
+        sign = llFrand(2.0);   
+        if (sign > 1.0)
+            C.z += llFrand(10);
+        else
+            C.z -= llFrand(10);
+
+       
+        llSetPos(C);
+
+    }
+}
